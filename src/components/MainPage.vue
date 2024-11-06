@@ -1,5 +1,6 @@
 <script setup>
 import { reactive, ref } from "vue";
+import { formatterTerm, formatterCard } from "../utils/validators";
 
 const formRef = ref(null);
 
@@ -14,6 +15,25 @@ const formInit = {
 
 const form = reactive({ ...formInit });
 
+const rules = reactive({
+  //-- Номер карты
+  card: {
+    required: true,
+    message: "Обязательное поле",
+  },
+  //-- Вид поощрения
+  kindCode: {
+    required: true,
+    message: "Обязательное поле",
+  },
+
+  //-- ФИО
+  empName: {
+    required: true,
+    message: "Обязательное поле",
+  },
+});
+
 const submitForm = () => {};
 </script>
 
@@ -22,26 +42,31 @@ const submitForm = () => {};
     ref="formRef"
     class="form-wrapper"
     :model="form"
+    :rules="rules"
     label-width="auto"
     label-position="top"
     :size="formSize"
   >
     <el-form-item label="Номер карты" prop="card">
-      <el-input v-model="form.card" />
+      <el-input
+        v-model="form.card"
+        @input="formatterCard($event, form, 'card')"
+        :maxlength="19"
+      />
     </el-form-item>
 
     <div class="flex">
       <el-form-item label="Срок действия" prop="term">
-        <el-input v-model="form.term" />
+        <el-input
+          v-model="form.term"
+          placeholder="ММ/ГГ"
+          @input="formatterTerm($event, form, 'term')"
+          :maxlength="5"
+        />
       </el-form-item>
 
       <el-form-item label="CVV" prop="cvv">
-        <el-input
-          v-model="form.cvv"
-          type="number"
-          :show-password="true"
-          :maxlength="3"
-        />
+        <el-input v-model="form.cvv" :show-password="true" :maxlength="4" />
       </el-form-item>
     </div>
 
