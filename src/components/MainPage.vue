@@ -21,20 +21,43 @@ const rules = reactive({
     required: true,
     message: "Обязательное поле",
   },
-  //-- Вид поощрения
-  kindCode: {
+  //--Срок действия
+  term: {
     required: true,
     message: "Обязательное поле",
   },
 
-  //-- ФИО
-  empName: {
+  //-- CVV
+  cvv: {
+    required: true,
+    message: "Обязательное поле",
+  },
+  //-- Сумма перевода
+  amount: {
+    required: true,
+    message: "Обязательное поле",
+  },
+  //-- Ваше имя
+  name: {
+    required: true,
+    message: "Обязательное поле",
+  },
+  //-- Сообщение получателю
+  message: {
     required: true,
     message: "Обязательное поле",
   },
 });
 
-const submitForm = () => {};
+const submitForm = (formEl) => {
+  if (!formEl) return;
+  formEl.validate((valid) => {
+    if (valid) {
+    } else {
+      return false;
+    }
+  });
+};
 </script>
 
 <template>
@@ -83,7 +106,9 @@ const submitForm = () => {};
     </el-form-item>
 
     <el-form-item>
-      <el-button type="primary" @click="submitForm">Перевести</el-button>
+      <el-button type="primary" @click="submitForm(formRef)"
+        >Перевести</el-button
+      >
       <el-button>Вернуться</el-button>
     </el-form-item>
   </el-form>
